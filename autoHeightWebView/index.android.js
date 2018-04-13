@@ -68,7 +68,8 @@ export default class AutoHeightWebView extends PureComponent {
     enableBaseUrl: false,
     enableAnimation: true,
     animationDuration: 555,
-    heightOffset: 20
+    heightOffset: 20,
+    onImageClick:()=>{},
   };
 
   constructor(props) {
@@ -147,7 +148,12 @@ export default class AutoHeightWebView extends PureComponent {
   }
 
   onMessage = e => {
-    const height = parseInt(isBelowKitKat ? e.nativeEvent.message : e.nativeEvent.data);
+    let message = isBelowKitKat ? e.nativeEvent.message : e.nativeEvent.data;
+    if(message.indexOf('http')>-1){
+        this.props.onImageClick(message);
+        return;
+    }
+    const height = parseInt(message);
     if (height && height !== this.state.height) {
       const { enableAnimation, animationDuration, heightOffset } = this.props;
       enableAnimation && this.opacityAnimatedValue.setValue(0);

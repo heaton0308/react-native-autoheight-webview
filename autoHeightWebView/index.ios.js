@@ -43,7 +43,8 @@ export default class AutoHeightWebView extends PureComponent {
     scalesPageToFit: false,
     enableAnimation: true,
     animationDuration: 555,
-    heightOffset: 12
+    heightOffset: 12,
+    onImageClick:()=>{},
   };
 
   constructor(props) {
@@ -79,6 +80,12 @@ export default class AutoHeightWebView extends PureComponent {
 
   stopLoading() {
     this.webView.stopLoading();
+  }
+  onMessage = e => {
+    let message = e.nativeEvent.message ? e.nativeEvent.message : e.nativeEvent.data;
+    if(message.indexOf('http')>-1){
+        this.props.onImageClick(message);
+    }
   }
 
   render() {
@@ -121,6 +128,7 @@ export default class AutoHeightWebView extends PureComponent {
           scalesPageToFit={scalesPageToFit}
           source={webViewSource}
           onNavigationStateChange={this.handleNavigationStateChange}
+          onMessage={this.onMessage}
         />
       </Animated.View>
     );
