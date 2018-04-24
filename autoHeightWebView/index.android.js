@@ -148,7 +148,7 @@ export default class AutoHeightWebView extends PureComponent {
   }
 
   onMessage = e => {
-    if(!e||!e.message){
+    if(!e||!e.nativeEvent){
         return;
     }
     let message = isBelowKitKat ? e.nativeEvent.message : e.nativeEvent.data;
