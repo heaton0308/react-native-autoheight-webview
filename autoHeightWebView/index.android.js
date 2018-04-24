@@ -148,7 +148,14 @@ export default class AutoHeightWebView extends PureComponent {
   }
 
   onMessage = e => {
+    if(!e||!e.message){
+        return;
+    }
     let message = isBelowKitKat ? e.nativeEvent.message : e.nativeEvent.data;
+    
+    if(!message){
+        return;
+    }
     if(message.indexOf('http')>-1){
         this.props.onImageClick(message);
         return;
